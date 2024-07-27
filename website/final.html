@@ -138,11 +138,11 @@
             <div class="row mt-5">
                 <div class="col">
                     <label for="presentAddress" class="form-label">Present Address:</label>
-                    <textarea class="form-control" id="presentAddress" name="presentAddress" placeholder="Enter your present address"></textarea>
+                    <input class="form-control" id="presentAddress" name="presentAddress" placeholder="Enter your present address"></textarea>
                 </div>
                 <div class="col">
                     <label for="permanentAddress" class="form-label">Permanent Address:</label>
-                    <textarea class="form-control" id="permanentAddress" name="permanentAddress" placeholder="Enter your permanent address"></textarea>
+                    <input class="form-control" id="permanentAddress" name="permanentAddress" placeholder="Enter your permanent address"></textarea>
                     <label for="copyAddress">Same as Present Address</label>
                     <input type="checkbox" id="copyAddress" onchange="copyPreAddress()">
                 </div>
@@ -158,6 +158,20 @@
         </form>
     </div>
     <script>
+
+
+        // Education qualification selection
+    document.getElementById('hqa').addEventListener('change', function() {
+        var selectValue = this.value;
+        var collegeFields = document.getElementById('collegeFields');
+
+        if (selectValue === 'Diploma' || selectValue === 'Bachelors' || selectValue === 'Masters') {
+            collegeFields.style.display = 'block';
+        } else {
+            collegeFields.style.display = 'none';
+        }
+    });
+    
         // Function to copy present address to permanent address
         function copyPreAddress() {
             var presentAddress = document.getElementById('presentAddress').value;

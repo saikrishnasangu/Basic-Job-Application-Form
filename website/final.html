@@ -34,17 +34,18 @@
             <div class="container fixed-top text-center bg-primary text-white">
                 <div class="header-container">
                     <h1 class="form-header">Basic Job Application Form</h1>
-                    <button type="submit" class="btn btn-primary form-control-sm">Submit Application</button>
+                    <button type="submit" class="btn btn-success form-control-sm">Submit Application</button>
                 </div>
-            </div>
-            <div id="formMessages" class="bg-light">
-                <span id="fname1" class="text-danger d-block"></span>
-                <span id="lname1" class="text-danger d-block"></span>
-                <span id="email1" class="text-danger d-block"></span>
-                <span id="phone2" class="text-danger d-block"></span>
-                <span id="pan2" class="text-danger d-block"></span>
-                <span id="dob2" class="text-danger d-block"></span>
-                <span id="add1" class="text-danger d-block"></span>
+                <div class="bg-primary p-2">
+                    <span id="fname1" class="text-danger "></span>
+                    <span id="lname1" class="text-danger "></span>
+                    <span id="email1" class="text-danger "></span>
+                    <span id="phone2" class="text-danger "></span>
+                    <span id="pan2" class="text-danger "></span>
+                    <span id="dob2" class="text-danger"></span>
+                    <span id="add1" class="text-danger"></span>
+                    <span id="res" class="text-danger"></span>
+                </div>
             </div>
             <div class="row mt-5">
                 <div class="col">
@@ -85,7 +86,7 @@
                 </div>
                 <div class="col">
                     <label for="phone" class="form-label">Phone Number:</label>
-                    <input type="text" id="phone" class="form-control" placeholder="0000000000" autocomplete="off">
+                    <input type="text" id="phone" class="form-control" placeholder="0000000000" onkeypress="validateNumberInput(event)" autocomplete="off">
                     <div class="invalid-feedback">Please enter a valid phone number starting with 6-9 and 10 digits.</div>
                 </div>
             </div>
@@ -93,7 +94,7 @@
             <div class="row mt-5">
                 <div class="col">
                     <label for="pan" class="form-label">Enter PAN Number:</label>
-                    <input type="text" id="pan" class="form-control" pattern="[A-Z]{5}-\d{4}-[A-Z]{1}" title="Enter a valid PAN number in format Eg: JBOPS-4197-A" maxlength="12" placeholder="XXXXX-0000-X" autocomplete="off">
+                    <input type="text" id="pan" class="form-control" pattern="[A-Z]{5}\d{4}[A-Z]{1}" title="Enter a valid PAN number in format Eg: JBOPS-4197-A" maxlength="12" placeholder="XXXXX-0000-X" autocomplete="off">
                 </div>
                 <div class="col">
                     <label class="form-label">Date of Birth:</label>
@@ -162,21 +163,33 @@
             var presentAddress = document.getElementById('presentAddress').value;
             var permanentAddress = document.getElementById('permanentAddress');
             var checkbox = document.getElementById('copyAddress');
-            
+    
             if (checkbox.checked) {
                 permanentAddress.value = presentAddress;
                 permanentAddress.disabled = true; // Disable input if copied
             } else {
+                permanentAddress.value = ''; // Clear permanent address if checkbox is unchecked
                 permanentAddress.disabled = false; // Enable input if not copied
             }
         }
 
-        // Event listener for real-time updates
         document.getElementById('presentAddress').addEventListener('input', function() {
-            if (document.getElementById('copyAddress').checked) {
-                document.getElementById('permanentAddress').value = this.value;
+            var permanentAddress = document.getElementById('permanentAddress');
+            var checkbox = document.getElementById('copyAddress');
+    
+            if (checkbox.checked) {
+                permanentAddress.value = this.value;
             }
         });
+        document.getElementById('copyAddress').addEventListener('change', copyPreAddress);
+
+
+        function validateNumberInput(event) {
+            const input = document.getElementById('phone'); 
+                if (isNaN(event.key) || event.key === ' ' || 
+                (input.value.length === 0 && !['6', '7', '8', '9'].includes(event.key)) || 
+                input.value.length >= 10) event.preventDefault();
+        }
 
         // Form validation function
         function validateForm() {
@@ -244,7 +257,8 @@
             }
 
             var permanentAdd = document.getElementById("permanentAddress");
-            if (permanentAdd.value.trim() == "" && document.getElementById('copyAddress').checked) {
+            var copyAddressChecked = document.getElementById('copyAddress').checked;
+            if (copyAddressChecked && permanentAdd.value.trim() == "") {
                 permanentAdd.focus();
                 document.getElementById("add1").innerHTML = "Please fill the permanent address";
                 return false;
@@ -252,7 +266,13 @@
                 document.getElementById("add1").innerHTML = "";
             }
 
-            return true; // Allow form submission
+            var resume = document.getElementById("resume");
+            if (!resume.value) {
+                resume.focus();
+                document.getElementById("res").innerHTML = "Please upload your resume";
+                return false;
+            } 
+        
         }
     </script>
 </body>

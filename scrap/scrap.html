@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>IDSL Job Application</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+
+  <style>
+    body {
+      color: chocolate;
+      background-color: rgb(225, 238, 238);
+      padding-bottom: 40px; 
+    }
+    .sticky-header {
+      position: sticky;
+      top: 0;
+      z-index: 1000; 
+      background-color: white; 
+      border-bottom: 2px solid orangered;
+      padding: 10px 0;
+    }
+    .header-title {
+      color: blueviolet;
+      text-align: center;
+      margin-bottom: 0; 
+    }
+  </style>
+
+<script src="java.js"></script>
+<script>
+  function job(){
+    var fname=document.getElementById("fname");
+    var lname=document.getElementById("lname");
+    var dob = document.getElementById("DateOfBirth");
+    var gender=document.getElementById("Gender");
+    var email=document.getElementById("email");
+    var pcontact=document.getElementById("contact");
+    var pan=document.getElementById("pancard");
+    var aadharcard=document.getElementById("aadhar");
+    var presentadd=document.getElementById("Presentaddress");
+    var permanentadd=document.getElementById("Permanentaddress");
+    var high=document.getElementById("HighestEducation")
+    var ski=document.getElementById("Skills")
+    var ack=document.getElementById("acknowledgeCheckbox")
+
+    document.getElementById("fname1").innerHTML=("");
+
+
+    
+    if(fname.value.trim()==""){
+      fname.focus();
+      document.getElementById("fname1").innerHTML = ("Please Fill First Name");
+       return false;
+    }
+    
+    if(lname.value.trim()==""){
+      lname.focus();
+      document.getElementById("fname1").innerHTML =  ("Please Fill Last Name");
+        return false;
+    }
+    
+    if(dob.value.trim()==""){
+       dob.focus();
+       document.getElementById("fname1").innerHTML = ("Please Fill Date of Birth");
+       return false;
+    }
+     if(gender.value.trim()==""){
+      gender.focus();
+      document.getElementById("fname1").innerHTML  = ("Please Fill The Gender");
+      return false;
+     }
+    if(email.value.trim()==""){
+      email.focus();
+      document.getElementById("fname1").innerHTML = ("Please Fill The Email");
+      return false;
+    }
+
+    if(pcontact.value.trim()==""){
+      contact.focus();
+      document.getElementById("fname1").innerHTML = ("Please Fill The Contact");
+        return false;
+    }
+
+     if(pan.value.trim()=="") {
+      pancard.focus();
+      document.getElementById("fname1").innerHTML = ("Please Fill The Pancard");
+      return false;
+     }
+
+     if(aadharcard.value.trim()==""){
+      aadhar.focus();
+      document.getElementById("fname1").innerHTML =("Please Fill The Aadhar");
+      return false;
+     }
+
+     if(presentadd.value.trim()==""){
+      Presentaddress.focus();
+      document.getElementById("fname1").innerHTML =("Please Fill The Presentaddress");
+      return false;
+     }
+
+     if(permanentadd.value.trim()==""){
+      Permanentaddress.focus();
+      document.getElementById("fname1").innerHTML =("Please Fill The Permanentaddress");
+      return false;
+     }
+      if(high.value.trim()==""){
+      HighestEducation.focus();
+      document.getElementById("fname1").innerHTML =("Please Fill The HighestEducation");
+      return false;
+     }
+
+      if(ski.value.trim()==""){
+        Skills.focus();
+        document.getElementById("fname1").innerHTML =("Please Fill The Skills ");
+      return false;
+     }
+    
+     if(ack.value.trim()==""){
+      acknowledgeCheckbox.focus();
+      document.getElementById("fname1").innerHTML =("Please tick the acknowledgecheckbox ");
+      return false;
+     }
+    
+  }
+
+
+</script>
+
+</head>
+<body style="color: chocolate; background-color: rgb(225, 238, 238);" >
+ 
+  <form action="page3.html" method="POST" name="form " id="form1" enctype="multipart/form-data" onsubmit="return job()">
+    <header class="sticky-header">
+      <h1 class="header-title">Job Application Form</h1>
+      <div class="row">
+        <div class="col-sm-5"></div>
+        <div class="col-sm-4">
+          <button type="submit" class="btn-btn-primary" style="color: black;" onclick="return job()">Submit Application</button>
+        </div>
+        <div style="text-align: center;" class="col-sm-12">
+          <span id="fname1" style="color: red;"></span>
+        </div>
+
+      </div>
+    </header>
+
+    <div class="container">
+      <div class="row mb-3">
+        <div class="col-sm-6">
+          <label for="fname" class="form-label" class="text-center">Firstname:</label>
+          <input type="text" class="form-control" id="fname" name="fname" pattern="[a-zA-Z]{0,99}" maxlength="100"  autocomplete="off" >
+        </div>
+        <div class="col-sm-6">
+          <label for="lname" class="form-label">Lastname:</label>
+          <input type="text" class="form-control" id="lname" name="lname"  pattern="[a-zA-Z]{0,99}" maxlength="100" autocomplete="off">
+        </div>
+      </div>
+    
+      <div class="row mb-3">
+        <div class="col-sm-6">
+          <label for="DateOfBirth" class="form-label">Date of Birth:</label>
+          <input type="date" class="form-control" id="DateOfBirth" name="DateOfBirth" oninput="validateAge()" autocomplete="off"  >
+        </div>
+        <div class="col-sm-6">
+          <label for="Gender" class="form-label">Gender:</label>
+            <select  class="form-control" id="Gender" name="Gender" autocomplete="off" >
+           <option value="" disabled selected></option>
+              <option value="Male">Male</option>
+              <option value="Female">Female</option>
+              <option value="others">others</option>
+              </select>
+          </div>
+        
+      </div>
+
+      <div class="row mb-3">
+        <div class="col-sm-6">
+          <label for="email" class="form-label">Email:</label>
+          <input type="email" class="form-control" id="email" name="email" autocomplete="off" oninput="convertToLower()"  pattern="^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2}$" >
+        </div>
+        <div class="col-sm-6">
+          <label for="contact" class="form-label"> Contact</label>
+          <input type="text" class="form-control" id="contact" name="contact"  maxlength="10" autocomplete="off" >
+        </div>
+      </div>
+      <div class="row mb-3">
+        <div class="col-sm-6">
+          <label for="pancard" class="form-label">Pancard:</label>
+          <input type="text" class="form-control" id="pancard" pattern="[A-Z0-9]{10}"  maxlength="10" placeholder="xxxxxxxxxx" autocomplete="off" oninput="convertToUpper()"  >
+        </div>
+        <div class="col-sm-6">
+          <form validate="number">
+            <label for="aadhar"> Aadhar Number :</label><br>
+            <input type="text" class="form-control" id="aadhar" name="aadhar" maxlength="14" oninput="formatAadharInput()" onkeypress="restrictInput(event)" pattern="\d{4}\s?\d{4}\s?\d{4}" placeholder="xxxx-xxxx-xxxx" autocomplete="off" >
+            </form>
+        </div>
+      </div>
+
+      <div class="row mb-3">
+        <div class="col-sm-6">
+          <label for="Presentaddress" class="form-label">Present Address:</label>
+          <input type="text" class="form-control" id="Presentaddress" name="Presentaddress"  autocomplete="off" >
+        </div>
+        <div class="col-sm-6">
+          <label for="permanentaddress" class="form-label">Permanent Address:</label>
+          <input type="text" class="form-control" id="permanentaddress" name="permanentaddress" autocomplete="off" >
+          <input type="checkbox"  id="address" onchange="copyPreAddress()">
+          <label for="address">Same as Presentaddress</label>
+        </div>
+      </div>
+
+      <div class="row mb-3">
+        <div class="col-sm-6">
+          <label for="HighestEducation" class="form-label">Highest Education:</label>
+          <select class="form-control" id="HighestEducation" name="HighestEducation" autocomplete="off" required onchange="collgedata()">
+              <option value="" disabled selected></option>
+              <option value="B.Tech">B.Tech</option>
+              <option value="Degree">Degree</option>
+              <option value="Diploma">Diploma</option>
+          </select>
+        </div>
+      
+        <div class="col-sm-6" id="collegeNameDiv" style="display: none;">
+          <label for="CollegeName" class="form-label">College Name:</label>
+          <input type="text" class="form-control" id="CollegeName" name="CollegeName" autocomplete="off">
+        </div>
+
+      <div class="col-sm-6" id="stream" style="display: none;">
+        <label for="stream" class="form-label">Stream:</label>
+          <select class="form-control" id="stream" name="stream" autocomplete="off" >
+            <option>Select an option</option>
+            <option value="CSE">CSE</option>
+            <option value="ECE">ECE</option>
+            <option value="EEE">EEE</option>
+          </select>
+       </div>
+      <div class="col-sm-6" id="percentage" style="display: none;">
+        <label for="percentage" class="form-label">Percentage:</label>
+        <input type="text" class="form-control" id="percentage" name="percentage" autocomplete="off">
+    </div>
+      
+      <div class="col-sm-6" id="yearOfPassoutDiv" style="display: none;">
+          <label for="YearOfPassout" class="form-label">Year of Passedout:</label>
+          <input type="text" class="form-control" id="YearOfPassout" name="YearOfPassout" autocomplete="off">
+      </div>
+      
+      
+        <div class="col-sm-6">
+          <label for="Skills" class="form-label">Skills:</label>
+          <input type="text" class="form-control" id="Skills" name="Skills" autocomplete="off" >
+        </div>
+      </div>
+
+      <div class="row mb-3">
+        <div class="col-sm-6">
+          <label for="Experience" class="form-label">Experience:</label>
+          <input type="text" class="form-control" id="Experience" name="Experience" autocomplete="off" >
+        </div>
+        <div class="col-sm-6" id="companyNameField" style="display: none;">
+          <label for="CompanyName" class="form-label">Company Name:</label>
+          <input type="text" class="form-control" id="CompanyName" name="CompanyName" autocomplete="off">
+        </div>
+         <div class="col-sm-6">
+          <label for="Resume" class="form-label">Resume:</label>
+          <input type="file" class="form-control" id="Resume" accept=".pdf.doc.docx" name="Resume" autocomplete="off" >
+        </div>
+      </div>
+      
+    <label>
+      <input type="checkbox" id="acknowledgeCheckbox"  > 
+      I acknowledge and agree to the terms.
+    </label>
+    </div>
+  </form>
+</body>
+</html>

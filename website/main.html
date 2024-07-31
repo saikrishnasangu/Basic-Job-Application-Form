@@ -60,20 +60,10 @@
                 </div>
                     <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
                         <label for="gender" class="form-label">Gender:</label>
-                        <div class="dropdown">
-                            <button class="form-control btn-light" type="button" id="Dropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                                Select an option
-                            </button>
-                            <div class="dropdown-menu form-control" aria-labelledby="Dropdown">
-                                <label class="dropdown-item">
-                                <input type="radio" class="form-check-input" name="gender" value="Male" onclick="selectOption(this)"> Male
-                                </label>
-                                <label class="dropdown-item">
-                                <input type="radio" class="form-check-input" name="gender" value="Female" onclick="selectOption(this)"> Female
-                                </label>
-                                <label class="dropdown-item">
-                                <input type="radio" class="form-check-input" name="gender" value="Other" onclick="selectOption(this)"> Other
-                                </label>
+                            <div>                           
+                                <label style="margin-right: 25px;"><input type="radio" class="form-check-input" name="gender" value="Male"> Male </label>
+                                <label style="margin-right: 25px;"><input type="radio" class="form-check-input" name="gender" value="Female"> Female </label>
+                                <label style="margin-right: 25px;"><input type="radio" class="form-check-input" name="gender" value="Other"> Other </label>
                             </div>
                         </div>
                     </div>
@@ -182,10 +172,6 @@
     
                 <!-- //********************JAVA SCRIPT**********************// -->
     <script>
-
-        function selectOption(radio) {
-            document.getElementById('Dropdown').textContent = radio.value;
-        }
 
         function updateDropdownText() {
             var dropdownButton = document.getElementById('hearDropdown');

@@ -60,7 +60,7 @@
                 </div>
                     <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
                         <label for="gender" class="form-label">Gender:</label>
-                            <div>                           
+                            <div id="gender">                           
                                 <label style="margin-right: 25px;"><input type="radio" class="form-check-input" name="gender" value="Male"> Male </label>
                                 <label style="margin-right: 25px;"><input type="radio" class="form-check-input" name="gender" value="Female"> Female </label>
                                 <label style="margin-right: 25px;"><input type="radio" class="form-check-input" name="gender" value="Other"> Other </label>
@@ -277,6 +277,14 @@
                 if (form.lname.value.trim() === "") {
                     errMsg.innerHTML = "Please enter last name";
                     form.lname.focus();
+                        return false;
+                }
+
+
+            var gen = form.gender;
+                if (gen.value.trim()===""){
+                    errMsg.innerHTML = "*Please select Gender";
+                    gender.focus();
                         return false;
                 }
 

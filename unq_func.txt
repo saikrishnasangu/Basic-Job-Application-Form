@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>IDS</title>
+    <link href="/website/bs.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <style>
+        body {
+            padding-top: 100px;
+        }
+        .fixed-top {
+            position: fixed;
+            width: 100%;
+            z-index: 1030;
+        }
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 20px;
+            background-color: #ffffff;
+            color: rgb(0, 0, 0);
+        }
+        .form-header {
+            margin-bottom: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-3">
+        <div id="err" class="container position-fixed text-center text-danger "></div>
+        <form class="text-center p-3 " name="frmname" onsubmit="return validateForm()">
+            <div class="container fixed-top text-center text-white ">
+                <div class="header-container bg-success ">
+                    <h1 class="form-header text-light">Basic Job Application Form</h1>
+                    <button type="submit" class="btn btn-primary form-control-sm">Submit Application</button>
+                </div>
+            </div>
+            <div class="row mt-5">
+                <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+                    <label for="fname" class="form-label">First Name:</label>
+                    <input type="text" id="fname" class="form-control" placeholder="Enter first name" name="fname" autocomplete="off">
+                </div>
+                <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+                    <label for="lname" class="form-label">Last Name:</label>
+                    <input type="text" id="lname" class="form-control" placeholder="Enter last name" name="lname" autocomplete="off">
+                </div>
+            </div>
+            <div class="row mt-5">
+                <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+                    <label for="pos" class="form-label">Applied Position:</label>
+                    <select class="form-control" id="pos" name="position">
+                        <option value="" disabled selected>Select an option</option>
+                        <option value="sm">Intern</option>
+                        <option value="li">Software Engineer</option>
+                        <option value="cs">Data Analyst</option>
+                    </select>
+                </div>
+                    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+                        <label for="gender" class="form-label">Gender:</label>
+                        <div class="dropdown">
+                            <button class="form-control btn-light" type="button" id="Dropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                Select an option
+                            </button>
+                            <div class="dropdown-menu form-control" aria-labelledby="Dropdown">
+                                <label class="dropdown-item">
+                                <input type="radio" class="form-check-input" name="gender" value="Male" onclick="selectOption(this)"> Male
+                                </label>
+                                <label class="dropdown-item">
+                                <input type="radio" class="form-check-input" name="gender" value="Female" onclick="selectOption(this)"> Female
+                                </label>
+                                <label class="dropdown-item">
+                                <input type="radio" class="form-check-input" name="gender" value="Other" onclick="selectOption(this)"> Other
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+            <div class="row mt-5">
+                <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+                    <label for="email" class="form-label">Email address:</label>
+                    <input type="text" id="email" class="form-control" placeholder="Enter your email" oninput="validateEmailInput()" autocomplete="off">
+                </div>
+                <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+                    <label for="contact" class="form-label">Phone Number:</label>
+                    <input type="text" id="contact" class="form-control" onkeypress="validateNumberInput(event)" autocomplete="off">
+                    <div class="invalid-feedback">Please enter a valid phone number starting with 6-9 and 10 digits.</div>
+                </div>
+            </div>
+            <div class="row mt-5">
+                <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+                    <label for="pan" class="form-label">Enter PAN Number:</label>
+                    <input type="text" id="pan" class="form-control" pattern="[A-Z]{5}\d{4}[A-Z]{1}" title="Enter a valid PAN number in format Eg: ABCD1234Z" maxlength="10" autocomplete="off">
+                </div>
+                <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+                    <label class="form-label">Date of Birth:</label>
+                    <input type="date" class="form-control" id="dob" name="dob">
+                    <div id="dobErrorMessage" style="color: red;"></div>
+                </div>
+            </div>
+            <div class="row mt-5">
+                <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">                    
+                        <label for="hear" class="form-label">How did you hear about this role:</label>
+                        <div class="dropdown">
+                            <button class="form-control btn-light" type="button" id="hearDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                Select options
+                            </button>
+                            <div class="dropdown-menu form-control" aria-labelledby="hearDropdown">
+                                <label class="dropdown-item">
+                                    <input type="checkbox" class="form-check-input" value="Social Media" onclick="updateDropdownText()"> Social Media
+                                </label>
+                                <label class="dropdown-item">
+                                    <input type="checkbox" class="form-check-input" value="LinkedIn" onclick="updateDropdownText()"> LinkedIn
+                                </label>
+                                <label class="dropdown-item">
+                                    <input type="checkbox" class="form-check-input" value="Careers" onclick="updateDropdownText()"> Careers
+                                </label>
+                            </div>
+                        </div>
+                    
+                </div>
+                <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+                    <label for="hqa" class="form-label">Highest Qualification Degree:</label>
+                    <select class="form-control" id="hqa" name="qualification">
+                        <option value="" disabled selected>Select an option</option>
+                        <option value="Diploma">Diploma</option>
+                        <option value="Bachelors">Bachelors</option>
+                        <option value="Masters">Masters</option>
+                    </select>
+                </div>
+            </div>
+            <div id="collegeFields" style="display: none;">
+                <div class="row mt-3" >
+                    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-3">
+                        <label for="collegeName" class="form-label">College Name:</label>
+                        <input type="text" class="form-control" id="collegeName" name="collegeName">
+                    </div>
+                    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-3">
+                        <label for="passingYear" class="form-label">Year of Passing:</label>
+                        <input type="text" class="form-control" id="passingYear" name="passingYear">
+                    </div>
+                    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-3">
+                        <label for="Branch" class="form-label">Branch:</label>
+                        <input type="text" class="form-control" id="Branch" name="Branch">
+                    </div>
+                    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-3">
+                        <label for="marks" class="form-label">CGPA/Percentage:</label>
+                        <input type="text" class="form-control" id="marks" name="marks">
+                    </div>
+                </div>
+            </div>
+            <div class="row mt-5">
+                <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+                    <label for="presentAddress" class="form-label">Present Address:</label>
+                    <input class="form-control" id="presentAddress" name="presentAddress" placeholder="Enter your present address" onkeyup="copyPreAddress()"></textarea>
+                </div>
+                <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+                    <label for="permanentAddress" class="form-label">Permanent Address:</label>
+                    <input class="form-control" id="permanentAddress" name="permanentAddress" placeholder="Enter your permanent address"></textarea>
+                    <label for="copyAddress">Same as Present Address</label>
+                        <input type="checkbox" id="copyAddress" onchange="copyPreAddress()">
+                </div>
+            </div>
+            <div class="row mt-5">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                    <label for="resume" class="form-label">Attach Resume:</label>
+                    <input type="file" id="resume" class="form-control form-control-file" name="resume" accept=".HTML,.pdf,.doc,.docx">
+                    <small class="form-text text-muted">Accepted formats: PDF, DOC, DOCX</small>
+                </div>
+            </div>
+            <div class="row mt-5">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                    <label for="files" class="form-label">Attach Other Files:</label>
+                    <input type="file" id="files" class="form-control form-control-file" name="files" accept=".jpg, .pdf,.doc,.docx" multiple>
+                    <small class="form-text text-muted">Accepted formats: JPG, PDF, DOC, DOCX.<strong> You can select multiple files.</strong></small>
+                </div>
+            </div>
+        </form>
+    </div>
+    
+                <!-- //********************JAVA SCRIPT**********************// -->
+    <script>
+
+        function selectOption(radio) {
+            document.getElementById('Dropdown').textContent = radio.value;
+        }
+
+        function updateDropdownText() {
+            var dropdownButton = document.getElementById('hearDropdown');
+
+            var checkboxes = document.querySelectorAll('#hearDropdown + .dropdown-menu .form-check-input');
+
+            var selectedOptions = [];
+
+            for (var i = 0; i < checkboxes.length; i++) {
+                        var checkbox = checkboxes[i];
+                if (checkbox.checked) {
+                    selectedOptions.push(checkbox.value);
+                }
+            }
+
+            dropdownButton.textContent = selectedOptions.length > 0 ? selectedOptions.join(', ') : 'Select options';
+        }
+        
+        //DOB VALIDATION
+        document.getElementById('dob').addEventListener('change', function(event) {
+        var dobInput = this.value;
+        var dob = new Date(dobInput);
+        var today = new Date();
+
+        var diff = today - dob;
+
+        var age = Math.floor(diff/(1000 * 60 * 60 * 24 * 365.25));
+
+        if (age < 18) {
+            document.getElementById('dobErrorMessage').innerHTML = 'You must be at least 18 years old to apply.';
+            event.preventDefault();
+        } else {
+            document.getElementById('dobErrorMessage').innerHTML = '';
+        }
+        });
+
+
+        
+        //EDUCATION VALIDATION BLOCKING
+        document.getElementById('hqa').addEventListener('change', function() {
+            var selectValue = this.value;
+            var collegeFields = document.getElementById('collegeFields');
+
+            if (selectValue === 'Diploma' || selectValue === 'Bachelors' || selectValue === 'Masters') {
+                collegeFields.style.display = 'block';
+            } else {
+                collegeFields.style.display = 'none';
+            }
+        });
+
+        //ADDRESS VALIDATION
+        function copyPreAddress() {
+            var presentAddress = document.getElementById('presentAddress').value;
+            var permanentAddress = document.getElementById('permanentAddress');
+            var checkbox = document.getElementById('copyAddress');
+
+            if (checkbox.checked) {
+                permanentAddress.value = presentAddress;
+                permanentAddress.disabled = true;
+            } else {
+                permanentAddress.value = '';
+                permanentAddress.disabled = false;
+            }
+        }
+
+        
+        //EMAIL VALIDATION
+        function validateEmailInput() {
+            const input = document.getElementById('email');
+            const email = input.value.trim();
+            const emailRegex = /^[a-zA-Z0-9_.+-]+@gmail\.com$/;
+
+            if (!emailRegex.test(email)) {
+                document.getElementById('email').innerHTML = "*Enter a valid email ending with @gmail.com";
+                return false;
+            } else {
+                document.getElementById('email').innerHTML = "";
+                return true;
+            }
+        }
+
+        //CONTACT VALIDATION
+        function validateNumberInput(event) {
+            var input = document.getElementById('contact'); 
+            if (isNaN(event.key) || event.key === ' ' || (input.value.length === 0 && !['6', '7', '8', '9'].includes(event.key)) || input.value.length >= 10)
+            event.preventDefault();
+        }
+
+        //*****FORM-VALIDATION*****
+        function validateForm() {
+            
+            var form = document.frmname;
+            var errMsg = document.getElementById('err');
+    
+            
+                if (form.fname.value.trim() === "") {
+                    errMsg.innerHTML = "Please enter first name";
+                    form.fname.focus();
+                        return false;
+                }
+
+            
+                if (form.lname.value.trim() === "") {
+                    errMsg.innerHTML = "Please enter last name";
+                    form.lname.focus();
+                        return false;
+                }
+
+            
+            var email = form.email;
+                if (email.value.trim() === "") {
+                    errMsg.innerHTML = "*Please enter email";
+                    email.focus();
+                        return false;
+                }
+                if (!validateEmailInput()) {
+                    errMsg.innerHTML = "*Please enter a valid Gmail address";
+                    email.focus();
+                    return false;
+                }
+
+            
+            var phone = form.contact;
+                if (phone.value.trim() === "") {
+                    errMsg.innerHTML = "*Please enter phone number";
+                    contact.focus();
+                        return false;
+                }
+
+            
+            var pan = form.pan;
+                if (pan.value.trim() === "") {
+                    errMsg.innerHTML = "*Please enter PAN number";
+                    pan.focus();
+                        return false;
+                }
+
+            
+            var dob = form.dob;
+                if (dob.value.trim() === "") {
+                    errMsg.innerHTML = "*Please enter DOB";
+                    dob.focus();
+                        return false;
+                }
+
+            var high = form.hqa;
+                if (high.value.trim() === ""){
+                    errMsg.innerHTML = "*Please select Qualification Degree";
+                    high.focus();
+                    return false;
+                }
+
+            var cname = form.collegeName;
+                if (cname.value.trim() === ""){
+                    errMsg.innerHTML = "*Please enter College Name";
+                    cname.focus();
+                    return false;
+                }
+
+            var yop = form.passingYear;
+                if(yop.value.trim()===""){
+                    errMsg.innerHTML="*Please enter passing year";
+                    yop.focus();
+                    return false;
+                }
+
+            var brnch = form.Branch;
+                if(brnch.value.trim()===""){
+                    errMsg.innerHTML="*Please enter branch";
+                    brnch.focus();
+                    return false;
+                }
+
+            var mks = form.marks;
+                if(mks.value.trim()===""){
+                    errMsg.innerHTML="*Please enter CGPA/Percentage";
+                    mks.focus();
+                    return false;
+                }
+                    
+            
+            var presentAdd = form.presentAddress;
+                if (presentAdd.value.trim() === "") {
+                    errMsg.innerHTML = "*Please fill the present address";
+                    presentAdd.focus();
+                        return false;
+                }
+
+            
+            var permanentAdd = form.permanentAddress;
+            
+            if (permanentAdd.value.trim() === "") {
+                errMsg.innerHTML = "*Please fill the permanent address";
+                permanentAdd.focus();
+                return false;
+            }
+            
+                
+
+            var resume = form.resume;
+                if (!resume.value) {
+                    errMsg.innerHTML = "*Please upload your resume";
+                    resume.focus();
+                    return false;
+                }
+
+                var fls = form.files;
+                if (!fls.value) {
+                    errMsg.innerHTML = "*Please upload your resume";
+                    fls.focus();
+                    return false;
+                }
+            return true;
+        }
+
+    </script>
+</body>
+</html>

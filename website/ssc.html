@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>IDS</title>
+    <title>IDS z</title>
     <link href="/website/bs.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <style>
@@ -26,6 +26,7 @@
         .form-header {
             margin-bottom: 0;
         }
+        
         #copyAddress {
             margin: 4px 0 0;
             line-height: normal;
@@ -156,6 +157,7 @@
                     <input class="form-control" id="permanentAddress" name="permanentAddress" placeholder="Enter your permanent address"></textarea>
                     <input type="checkbox" id="copyAddress" onchange="copyPreAddress()">
                     <small class="form-text text-muted"><label for="copyAddress">Same as Present Address</label></small>
+                        
                 </div>
             </div>
             <div class="row mt-5">
@@ -260,113 +262,120 @@
 
         //*****FORM-VALIDATION*****
         function validateForm() {
-            
-            var form = document.frmname;
-            var errMsg = document.getElementById('err');
+    var form = document.frmname;
+    var errMsg = document.getElementById('err');
+
+    // Validate First Name
+    if (form.fname.value.trim() === "") {
+        errMsg.innerHTML = "Please enter first name";
+        form.fname.focus();
+        return false;
+    }
+
+    // Validate Last Name
+    if (form.lname.value.trim() === "") {
+        errMsg.innerHTML = "Please enter last name";
+        form.lname.focus();
+        return false;
+    }
+
+    // Validate Gender
+    var genderSelected = false;
+    for (var i = 0; i < form.gender.length; i++) {
+        if (form.gender[i].checked) {
+            genderSelected = true;
+            break;
+        }
+    }
+    if (!genderSelected) {
+        errMsg.innerHTML = "*Please select Gender";
+        form.gender[0].focus();
+        return false;
+    }
+
+    // Validate Email
+    var email = form.email;
+    if (email.value.trim() === "") {
+        errMsg.innerHTML = "*Please enter email";
+        email.focus();
+        return false;
+    }
+    if (!validateEmailInput()) {
+        errMsg.innerHTML = "*Enter a valid email ending with @gmail.com";
+        email.focus();
+        return false;
+    }
+
+    // Validate Phone Number
+    var phone = form.contact;
+    if (phone.value.trim() === "") {
+        errMsg.innerHTML = "*Please enter phone number";
+        phone.focus();
+        return false;
+    }
+
+    // Validate PAN Number
+    var pan = form.pan;
+    if (pan.value.trim() === "") {
+        errMsg.innerHTML = "*Please enter PAN number";
+        pan.focus();
+        return false;
+    }
+
+    // Validate Date of Birth
+    var dob = form.dob;
+    if (dob.value.trim() === "") {
+        errMsg.innerHTML = "*Please enter DOB";
+        dob.focus();
+        return false;
+    }
+
+    // Validate How did you hear about this role
+    var hwk = form.hear;
+    var hwkChecked = false;
+    for (var i = 0; i < hwk.length; i++) {
+        if (hwk[i].checked) {
+            hwkChecked = true;
+            break;
+        }
+    }
+    if (!hwkChecked) {
+        errMsg.innerHTML = "*Please select at least one option";
+        hwk[0].focus();
+        return false;
+    }
+
     
-            
-                if (form.fname.value.trim() === "") {
-                    errMsg.innerHTML = "Please enter first name";
-                    form.fname.focus();
-                        return false;
-                }
+    var high = form.hqa;
+    if (high.value === 'Diploma' || high.value === 'Bachelors' || high.value === 'Masters') {
+        var cname = form.collegeName;
+        if (cname.value.trim() === "") {
+            errMsg.innerHTML = "*Please enter College Name";
+            cname.focus();
+            return false;
+        }
 
-            
-                if (form.lname.value.trim() === "") {
-                    errMsg.innerHTML = "Please enter last name";
-                    form.lname.focus();
-                        return false;
-                }
+        var yop = form.passingYear;
+        if (yop.value.trim() === "") {
+            errMsg.innerHTML = "*Please enter passing year";
+            yop.focus();
+            return false;
+        }
 
+        var brnch = form.Branch;
+        if (brnch.value.trim() === "") {
+            errMsg.innerHTML = "*Please enter branch";
+            brnch.focus();
+            return false;
+        }
 
-            var gen = form.gender;
-                if (gen.value.trim()===""){
-                    errMsg.innerHTML = "*Please select Gender";
-                    gender.focus();
-                        return false;
-                }
-
-            
-            var email = form.email;
-                if (email.value.trim() === "") {
-                    errMsg.innerHTML = "*Please enter email";
-                    email.focus();
-                        return false;
-                }
-                if (!validateEmailInput()) {
-                    errMsg.innerHTML = "*Please enter a valid Gmail address";
-                    email.focus();
-                    return false;
-                }
-
-            
-            var phone = form.contact;
-                if (phone.value.trim() === "") {
-                    errMsg.innerHTML = "*Please enter phone number";
-                    contact.focus();
-                        return false;
-                }
-
-            
-            var pan = form.pan;
-                if (pan.value.trim() === "") {
-                    errMsg.innerHTML = "*Please enter PAN number";
-                    pan.focus();
-                        return false;
-                }
-
-            
-            var dob = form.dob;
-                if (dob.value.trim() === "") {
-                    errMsg.innerHTML = "*Please enter DOB";
-                    dob.focus();
-                        return false;
-                }
-
-            var hwk = form.hear;
-                var hwkChecked = false;
-                    for (var i = 0; i < hwk.length; i++) {
-                        if (hwk[i].checked) {
-                            hwkChecked = true;
-                            break;
-                        }
-                    }
-                if (!hwkChecked) {
-                    errMsg.innerHTML = "*Please select at least one option";
-                    hwk[0].focus();
-                    return false;
-                }
-            
-                var high = form.hqa;
-                    if (high.value === 'Diploma' || high.value === 'Bachelors' || high.value === 'Masters') {
-                        var cname = form.collegeName;
-                            if (cname.value.trim() === "") {
-                                errMsg.innerHTML = "*Please enter College Name";
-                                cname.focus();
-                                return false;
-                            }
-
-                        var yop = form.passingYear;
-                            if (yop.value.trim() === "") {
-                                errMsg.innerHTML = "*Please enter passing year";
-                                yop.focus();
-                                return false;
-                            }
-
-                        var brnch = form.Branch;
-                            if (brnch.value.trim() === "") {
-                                errMsg.innerHTML = "*Please enter branch";
-                                brnch.focus();
-                                return false;
-                            }
-
-                        var mks = form.marks;
-                            if (mks.value.trim() === "") {
-                                errMsg.innerHTML = "*Please enter CGPA/Percentage";
-                                mks.focus();
-                                return false;
-                            }
-                    }
+        var mks = form.marks;
+        if (mks.value.trim() === "") {
+            errMsg.innerHTML = "*Please enter CGPA/Percentage";
+            mks.focus();
+            return false;
+        }
+    }
 
     var loc = form.preferredLocation;
     if (form.tick.checked && loc.value.trim() === "") {
@@ -375,39 +384,37 @@
         return false;
     }
 
-            var presentAdd = form.presentAddress;
-                if (presentAdd.value.trim() === "") {
-                    errMsg.innerHTML = "*Please fill the present address";
-                    presentAdd.focus();
-                        return false;
-                }
+    var presentAdd = form.presentAddress;
+    if (presentAdd.value.trim() === "") {
+        errMsg.innerHTML = "*Please fill the present address";
+        presentAdd.focus();
+        return false;
+    }
 
-            
-            var permanentAdd = form.permanentAddress;
-            
-            if (permanentAdd.value.trim() === "") {
-                errMsg.innerHTML = "*Please fill the permanent address";
-                permanentAdd.focus();
-                return false;
-            }
-            
-                
+    var permanentAdd = form.permanentAddress;
+    if (permanentAdd.value.trim() === "") {
+        errMsg.innerHTML = "*Please fill the permanent address";
+        permanentAdd.focus();
+        return false;
+    }
 
-            var resume = form.resume;
-                if (!resume.value) {
-                    errMsg.innerHTML = "*Please upload your resume";
-                    resume.focus();
-                    return false;
-                }
+    var resume = form.resume;
+    if (!resume.value) {
+        errMsg.innerHTML = "*Please upload your resume";
+        resume.focus();
+        return false;
+    }
 
-                var fls = form.files;
-                if (!fls.value) {
-                    errMsg.innerHTML = "*Please upload your resume";
-                    fls.focus();
-                    return false;
-                }
-            return true;
-        }
+    var fls = form.files;
+    if (fls.files.length === 0) {
+        errMsg.innerHTML = "*Please upload other files";
+        fls.focus();
+        return false;
+    }
+
+    return true;
+}
+
 
     </script>
 </body>

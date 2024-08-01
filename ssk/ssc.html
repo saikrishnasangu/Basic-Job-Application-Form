@@ -6,9 +6,24 @@
     <title>IDS z</title>
     <link href="/website/bs.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+    <!-- for warning icon -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
+    
     <style>
         body {
             padding-top: 100px;
+            font-family: 'Roboto', sans-serif; /* Apply the custom font */
+        }
+        .toast-warning {
+            display: flex;
+            align-items: center;
+        }
+        .toast-warning .toast-icon {
+            margin-right: 10px;
+            font-size: 20px;
         }
         .fixed-top {
             position: fixed;
@@ -201,7 +216,8 @@
         var age = Math.floor(diff/(1000 * 60 * 60 * 24 * 365.25));
 
         if (age < 18) {
-            document.getElementById('dobErrorMessage').innerHTML = 'You must be at least 18 years old to apply.';
+            toastr.error('sas')
+            //document.getElementById('dobErrorMessage').innerHTML = 'You must be at least 18 years old to apply.';
             event.preventDefault();
         } else {
             document.getElementById('dobErrorMessage').innerHTML = '';
@@ -261,159 +277,180 @@
         }
 
         //*****FORM-VALIDATION*****
-        function validateForm() {
-    var form = document.frmname;
-    var errMsg = document.getElementById('err');
-
-    // Validate First Name
-    if (form.fname.value.trim() === "") {
-        errMsg.innerHTML = "Please enter first name";
-        form.fname.focus();
-        return false;
+        function showToast(message, duration = 1000, backgroundColor = '#ffcc00') {
+        Toastify({
+            text: `<i class="fas fa-exclamation-triangle toast-icon"></i>${message}`,
+            duration: duration,
+            gravity: "top", // `top` or `bottom`
+            position: "center", // `left`, `center` or `right`
+            backgroundColor: backgroundColor,
+            stopOnFocus: true, // Prevents dismissing of toast on hover
+            className: "toast-warning",
+            style: {
+                fontFamily: 'Roboto, sans-serif', // Custom font
+                fontWeight: 'bold', // Bold font weight for better readability
+                color: '#333' // Text color
+            },
+            escapeMarkup: false // Allows HTML tags in text
+        }).showToast();
     }
 
-    // Validate Last Name
-    if (form.lname.value.trim() === "") {
-        errMsg.innerHTML = "Please enter last name";
-        form.lname.focus();
-        return false;
-    }
+    // Modified validateForm function using Toastify
+    function validateForm() {
+        var form = document.frmname;
 
-    // Validate Gender
-    var genderSelected = false;
-    for (var i = 0; i < form.gender.length; i++) {
-        if (form.gender[i].checked) {
-            genderSelected = true;
-            break;
-        }
-    }
-    if (!genderSelected) {
-        errMsg.innerHTML = "*Please select Gender";
-        form.gender[0].focus();
-        return false;
-    }
-
-    // Validate Email
-    var email = form.email;
-    if (email.value.trim() === "") {
-        errMsg.innerHTML = "*Please enter email";
-        email.focus();
-        return false;
-    }
-    if (!validateEmailInput()) {
-        errMsg.innerHTML = "*Enter a valid email ending with @gmail.com";
-        email.focus();
-        return false;
-    }
-
-    // Validate Phone Number
-    var phone = form.contact;
-    if (phone.value.trim() === "") {
-        errMsg.innerHTML = "*Please enter phone number";
-        phone.focus();
-        return false;
-    }
-
-    // Validate PAN Number
-    var pan = form.pan;
-    if (pan.value.trim() === "") {
-        errMsg.innerHTML = "*Please enter PAN number";
-        pan.focus();
-        return false;
-    }
-
-    // Validate Date of Birth
-    var dob = form.dob;
-    if (dob.value.trim() === "") {
-        errMsg.innerHTML = "*Please enter DOB";
-        dob.focus();
-        return false;
-    }
-
-    // Validate How did you hear about this role
-    var hwk = form.hear;
-    var hwkChecked = false;
-    for (var i = 0; i < hwk.length; i++) {
-        if (hwk[i].checked) {
-            hwkChecked = true;
-            break;
-        }
-    }
-    if (!hwkChecked) {
-        errMsg.innerHTML = "*Please select at least one option";
-        hwk[0].focus();
-        return false;
-    }
-
-    
-    var high = form.hqa;
-    if (high.value === 'Diploma' || high.value === 'Bachelors' || high.value === 'Masters') {
-        var cname = form.collegeName;
-        if (cname.value.trim() === "") {
-            errMsg.innerHTML = "*Please enter College Name";
-            cname.focus();
+        // Validate first name
+        if (form.fname.value.trim() === "") {
+            showToast("Please enter first name");
+            form.fname.focus();
             return false;
         }
 
-        var yop = form.passingYear;
-        if (yop.value.trim() === "") {
-            errMsg.innerHTML = "*Please enter passing year";
-            yop.focus();
+        // Validate last name
+        if (form.lname.value.trim() === "") {
+            showToast("Please enter last name");
+            form.lname.focus();
             return false;
         }
 
-        var brnch = form.Branch;
-        if (brnch.value.trim() === "") {
-            errMsg.innerHTML = "*Please enter branch";
-            brnch.focus();
+        // Validate gender
+        var gen = form.gender;
+        var genderSelected = false;
+        for (var i = 0; i < gen.length; i++) {
+            if (gen[i].checked) {
+                genderSelected = true;
+                break;
+            }
+        }
+        if (!genderSelected) {
+            showToast("Please select Gender");
             return false;
         }
 
-        var mks = form.marks;
-        if (mks.value.trim() === "") {
-            errMsg.innerHTML = "*Please enter CGPA/Percentage";
-            mks.focus();
+        // Validate email
+        var email = form.email;
+        if (email.value.trim() === "") {
+            showToast("Please enter email");
+            email.focus();
             return false;
         }
+        if (!validateEmailInput()) {
+            showToast("Please enter a valid Gmail address");
+            email.focus();
+            return false;
+        }
+
+        // Validate phone number
+        var phone = form.contact;
+        if (phone.value.trim() === "") {
+            showToast("Please enter phone number");
+            phone.focus();
+            return false;
+        }
+
+        // Validate PAN number
+        var pan = form.pan;
+        if (pan.value.trim() === "") {
+            showToast("Please enter PAN number");
+            pan.focus();
+            return false;
+        }
+
+        // Validate DOB
+        var dob = form.dob;
+        if (dob.value.trim() === "") {
+            showToast("Please enter DOB");
+            dob.focus();
+            return false;
+        }
+
+        // Validate how did you hear about this role
+        var hwk = form.hear;
+        var hwkChecked = false;
+        for (var i = 0; i < hwk.length; i++) {
+            if (hwk[i].checked) {
+                hwkChecked = true;
+                break;
+            }
+        }
+        if (!hwkChecked) {
+            showToast("Please select at least one option");
+            return false;
+        }
+
+        // Validate education details
+        var high = form.hqa;
+        if (high.value === 'Diploma' || high.value === 'Bachelors' || high.value === 'Masters') {
+            var cname = form.collegeName;
+            if (cname.value.trim() === "") {
+                showToast("Please enter College Name");
+                cname.focus();
+                return false;
+            }
+
+            var yop = form.passingYear;
+            if (yop.value.trim() === "") {
+                showToast("Please enter passing year");
+                yop.focus();
+                return false;
+            }
+
+            var brnch = form.Branch;
+            if (brnch.value.trim() === "") {
+                showToast("Please enter branch");
+                brnch.focus();
+                return false;
+            }
+
+            var mks = form.marks;
+            if (mks.value.trim() === "") {
+                showToast("Please enter CGPA/Percentage");
+                mks.focus();
+                return false;
+            }
+        }
+
+        // Validate preferred location if applicable
+        var loc = form.preferredLocation;
+        if (form.tick.checked && loc.value.trim() === "") {
+            showToast("Please enter preferred Location");
+            loc.focus();
+            return false;
+        }
+
+        // Validate addresses
+        var presentAdd = form.presentAddress;
+        if (presentAdd.value.trim() === "") {
+            showToast("Please fill the present address");
+            presentAdd.focus();
+            return false;
+        }
+
+        var permanentAdd = form.permanentAddress;
+        if (permanentAdd.value.trim() === "") {
+            showToast("Please fill the permanent address");
+            permanentAdd.focus();
+            return false;
+        }
+
+        // Validate file uploads
+        var resume = form.resume;
+        if (!resume.value) {
+            showToast("Please upload your resume");
+            resume.focus();
+            return false;
+        }
+
+        var fls = form.files;
+        if (!fls.value) {
+            showToast("Please upload other files");
+            fls.focus();
+            return false;
+        }
+
+        return true;
     }
 
-    var loc = form.preferredLocation;
-    if (form.tick.checked && loc.value.trim() === "") {
-        errMsg.innerHTML = "*Please enter preferred Location";
-        loc.focus();
-        return false;
-    }
-
-    var presentAdd = form.presentAddress;
-    if (presentAdd.value.trim() === "") {
-        errMsg.innerHTML = "*Please fill the present address";
-        presentAdd.focus();
-        return false;
-    }
-
-    var permanentAdd = form.permanentAddress;
-    if (permanentAdd.value.trim() === "") {
-        errMsg.innerHTML = "*Please fill the permanent address";
-        permanentAdd.focus();
-        return false;
-    }
-
-    var resume = form.resume;
-    if (!resume.value) {
-        errMsg.innerHTML = "*Please upload your resume";
-        resume.focus();
-        return false;
-    }
-
-    var fls = form.files;
-    if (fls.files.length === 0) {
-        errMsg.innerHTML = "*Please upload other files";
-        fls.focus();
-        return false;
-    }
-
-    return true;
-}
 
 
     </script>
